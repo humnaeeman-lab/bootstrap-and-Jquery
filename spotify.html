@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>spotify 2.0</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <style>
+    .nav.flex-column img {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 15px;
+    }
+
+    body {
+        background-color: #1b1a1a;
+    }
+
+    .navbar {
+    background-color: #7d7a7a !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 2px 12px !important;
+}
+
+.navbar .container-fluid {
+    min-height: 0;
+}
+.navbar .container-fluid {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.navbar-brand,
+.navbar .nav-link {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+}
+   .sidebar {
+    background-color: #181818;
+    flex: 0 0 80px;
+    width: 80px;
+    align-self: stretch;
+}
+.sidebar-scroll {
+    position: sticky;
+    top: 0;
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    overscroll-behavior-y: contain;
+}
+
+.sidebar-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+
+    .col {
+        background-color: #060605;
+        min-height: calc(100vh - 56px);
+    }
+   .tooltip.artist-tooltip .tooltip-inner {
+    background-color: #3b3939;
+    color: white;
+}
+
+.tooltip.artist-tooltip .tooltip-arrow::before {
+    border-right-color: #3b3030;
+}
+.recently-played {
+   margin-top: 5px; 
+    color: rgb(235, 227, 227);
+}
+.col h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: rgb(229, 212, 212) !important;
+}
+
+.col h4 {
+    font-size: 16px;
+    color: #e8dcdc;
+}
+.quick-card {
+    display: flex;
+    align-items: center;
+    background-color: #1a1919;
+    width: 250px;
+    height: 60px;
+    border-radius: 5px;
+    gap: 10px;
+}
+
+.quick-card img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+}
+
+.quick-card h6 {
+    color: white;
+    margin: 0;
+}
+.quick-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 250px);
+    gap: 15px;
+    margin-top: 15px;
+}
+@media (max-width: 576px) {
+    .quick-cards {
+        grid-template-columns: 1fr;}}
+        .quick-card {
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.quick-card:hover {
+    background-color: #7b7a7a;
+}
+.recent-cards {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding: 10px 0;
+}
+
+.recent-card {
+    min-width: 180px;
+    flex-shrink: 0;
+}
+.recent-card {
+    min-width: 180px;
+    width: 180px;
+    flex-shrink: 0;
+    padding: 15px;
+    background-color: #363434;
+    border-radius: 8px;
+    position: relative;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.recent-card:hover {
+    background-color: #4b4343;
+}
+
+.recent-card img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.recent-card h5 {
+    color: white;
+    font-size: 16px;
+    margin-top: 12px;
+}
+
+.recent-card p {
+    color: #c5baba;
+    font-size: 13px;
+    margin-bottom: 0;
+}
+.recent-img {
+    position: relative;
+}
+
+.play-btn {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 50%;
+    background-color: #1ed760;
+    color: black;
+    font-size: 20px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: 0.3s ease;
+}
+
+.recent-card:hover .play-btn {
+    opacity: 1;
+    transform: translateY(0);
+}
+.recent-cards {
+    scrollbar-width: none;
+}
+
+.recent-cards::-webkit-scrollbar {
+    display: none;
+}
+
+.row {
+    display: flex;
+    flex-wrap: nowrap;
+}
+.row > .col {
+    flex: 1;
+    min-width: 0;
+}
+.made-for-you {
+    margin-top: 25px;
+    color: rgb(240, 234, 234);
+}
+.popular-albums {
+    margin-top: 25px;
+    color: rgb(238, 232, 232);
+}
+.trending-songs {
+    margin-top: 25px;
+    color: rgb(238, 232, 232);
+}
+.promo-banner {
+    min-height: 250px;
+    padding: 40px;
+    color: white;
+    border-radius: 12px;
+}
+
+.signup-banner {
+    background: linear-gradient(120deg, #4b164c, #b64b80);
+}
+
+.premium-banner {
+    background: linear-gradient(120deg, #170c30, #6525a8);
+}
+
+.anywhere-banner {
+    background: linear-gradient(120deg, #071d18, #087b50);
+}
+.promo-btn {
+    background-color: #f18686;
+    color: #2b1010;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 25px;
+    font-weight: bold;
+    transition: 0.3s ease;
+}
+
+.promo-btn:hover {
+    background-color: white;
+    color: #6525a8;
+    transform: scale(1.05);
+}
+.footer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 30px;
+    border-top: 1px solid #a58c8c;
+    gap: 20px;
+}
+
+.footer-section {
+    display: flex;
+    flex-direction: column;
+}
+.footer-section a {
+    color: rgb(132, 130, 130);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+    color: #ffffff;
+    filter: brightness(1.5);
+}
+@media (max-width: 576px) {
+    .footer {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+.music-player {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    background-color: #141414;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    z-index: 1000;
+}
+.player-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 25%;
+    flex-shrink: 0;
+}
+
+.player-left img {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.song-info h6 {
+    color: white;
+    margin: 0;
+}
+
+.song-info p {
+    color: #aaa;
+    font-size: 12px;
+    margin: 4px 0 0;
+}
+.player-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+}
+
+.player-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.player-controls button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.progress-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    color: #aaa;
+    font-size: 12px;
+}
+
+.progress-section input {
+    flex: 1;
+}
+
+.player-controls .play-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    background-color: white;
+    border: none;
+    border-radius: 50%;
+    color: #2b2424;
+    font-size: 24px;
+    opacity: 1;
+    visibility: visible;
+    flex-shrink: 0;
+    position: static;
+    width: 32px;
+height: 32px;
+min-width: 32px;
+font-size: 22px;
+transform: translateY(-4px);
+}
+
+.player-controls .play-btn i {
+    color: #2b2424;
+}
+ .player-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    width: 25%;
+}
+.container-fluid {
+    padding-bottom: 90px;
+}
+.player-right button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.player-right input {
+    width: 90px;
+    accent-color: white;
+    cursor: pointer;
+}
+@media (max-width: 576px) {
+    .sidebar {
+        display: none;
+    }
+}@media (max-width: 576px) {
+    .music-player {
+        height: 75px;
+        padding: 8px;
+    }
+
+    .player-left {
+        width: 30%;
+    }
+
+    .player-left img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .song-info h6 {
+        font-size: 11px;
+    }
+
+    .song-info p {
+        font-size: 9px;
+    }
+
+    .player-center {
+    position: static;
+    transform: none;
+    width: 65%;
+    flex: 1;
+    margin-left: 8px;
+}
+
+    .player-right {
+        display: none;
+    }
+
+    .player-controls {
+        gap: 10px;
+    }
+
+    .player-controls button {
+        font-size: 15px;
+    }
+
+    .player-controls .play-btn {
+        width: 28px;
+        height: 28px;
+        min-width: 28px;
+    }
+
+    .progress-section {
+        font-size: 9px;
+        gap: 5px;
+    }
+}
+</style>
+</head>
+<body>
+    <!-- horizontal nav start -->
+     <nav class="navbar navbar-expand-lg bg-body-tertiary" >
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#"><b> spotify </b></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">All</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Favorites
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">recently played</a></li>
+            <li><a class="dropdown-item" href="#">liked songs</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">trending</a></li>
+          </ul>
+        </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+        </li> -->
+      </ul>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+     <!-- horizontal nav end -->
+<div class="container-fluid">
+    <div class="row">
+    <!-- vertical nav start -->
+     <div class="col-auto sidebar">
+    <div class="sidebar-scroll">
+        <ul class="nav flex-column">
+    <li class="nav-item">
+        <br>
+    <img src="like.png" alt=""
+         data-bs-toggle="tooltip"
+         data-bs-placement="right"
+         title="Liked Songs - Your favourite tracks in one place"
+         data-bs-custom-class="artist-tooltip">
+</li>
+  <br>
+  <li class="nav-item">
+    <img src="vn1.webp" alt="" data-bs-toggle="tooltip"
+data-bs-placement="right"
+title="Asim Azher - Popular songs and hits"
+data-bs-custom-class="artist-tooltip">
+  </li>
+  <br>
+  <li class="nav-item">
+    <img src="vn2.webp" alt="" data-bs-toggle="tooltip"
+data-bs-placement="right"
+title="Ali Zafar - albums and popular songs"
+data-bs-custom-class="artist-tooltip">
+  </li>
+  <br>
+  <li class="nav-item">
+    <img src="vn3.webp" alt="" data-bs-toggle="tooltip"
+data-bs-placement="right"
+title="shubh - punjabi hits"
+data-bs-custom-class="artist-tooltip">
+  </li>
+  <br>
+  <li class="nav-item">
+    <img src="vn4.webp" alt="" data-bs-toggle="tooltip"
+data-bs-placement="right"
+title="Armaan malik - popular songs and albums"
+data-bs-custom-class="artist-tooltip">
+  </li>
+  <br>
+  <li class="nav-item">
+    <img src="vn5.webp" alt=""data-bs-toggle="tooltip"
+data-bs-placement="right"
+title="Anuv Jain - sad and soulful"
+data-bs-custom-class="artist-tooltip">
+  </li>
+  <br>
+  <li class="nav-item">
+    <img src="vn6.webp" alt=""data-bs-toggle="tooltip"
+data-bs-placement="right"
+title="Arjit Singh - popular hits"
+data-bs-custom-class="artist-tooltip">
+  </li>
+  <br>
+  <li class="nav-item">
+    <img src="vn7.webp" alt=""data-bs-toggle="tooltip"
+data-bs-placement="right"
+title="Dharsan Raval - famous hits"
+data-bs-custom-class="artist-tooltip">
+  </li>
+  <br>
+  <li class="nav-item">
+    <img src="vn8.webp" alt=""data-bs-toggle="tooltip"
+data-bs-placement="right"
+title="Azaan Sami Khan"
+data-bs-custom-class="artist-tooltip">
+  </li>
+  <br>
+  <li class="nav-item">
+    <img src="vn9.webp" alt=""data-bs-toggle="tooltip"
+data-bs-placement="right"
+title="badshah- artist"
+data-bs-custom-class="artist-tooltip">
+  </li>
+  <br>
+  <li class="nav-item">
+    <img src="vn10.webp" alt=""data-bs-toggle="tooltip"
+data-bs-placement="right"
+title="Abdul Hannan - soft soulful"
+data-bs-custom-class="artist-tooltip">
+  </li>
+  <br>
+  <li class="nav-item">
+    <img src="vn11.webp" alt=""data-bs-toggle="tooltip"
+data-bs-placement="right"
+title="Atif Aslam - popular hits"
+data-bs-custom-class="artist-tooltip">
+  </li>
+  <br>
+  <li class="nav-item">
+    <img src="vn12.webp" alt=""data-bs-toggle="tooltip"
+data-bs-placement="right"
+title="Ed sheeran - english hits"
+data-bs-custom-class="artist-tooltip">
+  </li>
+  <br>
+  <li class="nav-item">
+    <img src="vn13.webp" alt=""data-bs-toggle="tooltip"
+data-bs-placement="right"
+title="king - popular hits"
+data-bs-custom-class="artist-tooltip">
+  </li>
+  <br>
+  <li class="nav-item">
+    <img src="vn14.webp" alt=""data-bs-toggle="tooltip"
+data-bs-placement="right"
+title="Momina mustehsan- albums and hits"
+data-bs-custom-class="artist-tooltip">
+  </li>
+</ul>
+<!-- vertical nav end -->
+ </div>
+  </div>
+ <!-- Main Content -->
+  
+<div class="col">
+  <div class="top-section">
+ <br>
+ <button type="button" class="btn btn-secondary">All</button>
+<button type="button" class="btn btn-outline-secondary">Music</button>
+<button type="button" class="btn btn-outline-secondary">Audiobooks</button>
+<br> <br>
+<div class="quick-cards">
+       <div class="quick-card">
+        <img src="vn1.webp" alt="Artist" >
+        <h6>Asim Azher Radio</h6>
+    </div>
+    <div class="quick-card">
+        <img src="vn2.webp" alt="Artist" >
+        <h6>Ali zafar Radio</h6>
+    </div>
+    <div class="quick-card">
+        <img src="vn3.webp" alt="Artist" >
+        <h6>shubh Radio</h6>
+    </div>
+    <div class="quick-card">
+        <img src="vn4.webp" alt="Artist" >
+        <h6>Armaan Malik Radio</h6>
+    </div>
+    </div>
+  </div>
+  <!-- get started start -->
+  <h2 style="color: black;">Get started</h2>
+    <h4>Discover your favourite music.</h4>
+    <div id="promoCarousel" class="carousel slide" data-bs-ride="carousel">
+   <div class="carousel-inner">
+
+    <div class="carousel-item active">
+        <div class="promo-banner signup-banner">
+            <h2>Enjoy Your Music Without Limits</h2>
+            <p>Sign up and discover millions of songs.</p>
+            <br><br>
+            <button class="btn btn-light promo-btn">Sign Up</button>
+        </div>
+    </div>
+
+    <div class="carousel-item">
+        <div class="promo-banner premium-banner">
+            <h2>Go Premium</h2>
+            <p>Enjoy ad-free music and listen offline.</p>
+            <br><br>
+            <button class="btn btn-light promo-btn">Try Premium</button>
+        </div>
+    </div>
+
+    <div class="carousel-item">
+        <div class="promo-banner anywhere-banner">
+            <h2>Listen Anywhere</h2>
+            <p>Your favourite music, on all your devices.</p>
+            <br><br>
+            <button class="btn btn-light promo-btn">Explore More</button>
+        </div>
+    </div>
+
+</div>
+<button class="carousel-control-prev" type="button"
+    data-bs-target="#promoCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+</button>
+
+<button class="carousel-control-next" type="button"
+    data-bs-target="#promoCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+</button>
+
+</div>
+<!-- get started end -->
+    <!-- recently played start -->
+     <div class="recently-played">
+      <h3>Recently Played</h3>
+      <div class="recent-cards">
+    <div class="recent-card">
+    <div class="recent-img">
+        <img src="rp1.jpg" alt="Music">
+
+        <button class="play-btn" type="button">
+            ▶
+        </button>
+    </div>
+
+    <h5>Tera ghata</h5>
+    <p>Gajendra verma</p>
+</div>
+    <div class="recent-card">
+    <div class="recent-img">
+        <img src="rp2.jpg" alt="Music">
+
+        <button class="play-btn" type="button">
+            ▶
+        </button>
+    </div>
+
+    <h5>Yaariyan 2</h5>
+    <p>Arjit singh</p>
+</div>
+<div class="recent-card">
+    <div class="recent-img">
+        <img src="rp3.jpg" alt="Music">
+
+        <button class="play-btn" type="button">
+            ▶
+        </button>
+    </div>
+
+    <h5>Afsoos</h5>
+    <p>Anuv jain,AP dhillon</p>
+</div>
+<div class="recent-card">
+    <div class="recent-img">
+        <img src="rp4.jpg" alt="Music">
+
+        <button class="play-btn" type="button">
+            ▶
+        </button>
+    </div>
+
+    <h5>Sun Saiyyan</h5>
+    <p>mansoor fateh ali khan</p>
+</div>
+<div class="recent-card">
+    <div class="recent-img">
+        <img src="rp5.jpg" alt="Music">
+
+        <button class="play-btn" type="button">
+            ▶
+        </button>
+    </div>
+
+    <h5>Finding her</h5>
+    <p>khushagra,bharath,saaheal</p>
+</div>
+<div class="recent-card">
+    <div class="recent-img">
+        <img src="rp6.jpg" alt="Music">
+
+        <button class="play-btn" type="button">
+            ▶
+        </button>
+    </div>
+
+    <h5>Judha</h5>
+    <p>falak shabbir</p>
+</div>
+<div class="recent-card">
+    <div class="recent-img">
+        <img src="rp7.jpg" alt="Music">
+
+        <button class="play-btn" type="button">
+            ▶
+        </button>
+    </div>
+
+    <h5>jhol</h5>
+    <p>maaun,anuraal khalid</p>
+</div>
+<div class="recent-card">
+    <div class="recent-img">
+        <img src="rp8.jpg" alt="Music">
+
+        <button class="play-btn" type="button">
+            ▶
+        </button>
+    </div>
+
+    <h5>PalPal(with telwiinder)</h5>
+    <p>Aufsic, talwiinder</p>
+</div>
+<div class="recent-card">
+    <div class="recent-img">
+        <img src="rp9.jpg" alt="Music">
+
+        <button class="play-btn" type="button">
+            ▶
+        </button>
+    </div>
+
+    <h5>Tera zikar</h5>
+    <p>dharshan raval</p>
+</div>
+<div class="recent-card">
+    <div class="recent-img">
+        <img src="rp10.jpg" alt="Music">
+
+        <button class="play-btn" type="button">
+            ▶
+        </button>
+    </div>
+
+    <h5>Judha</h5>
+    <p>falak shabbir</p>
+</div>   
+</div>
+</div>
+<div class="made-for-you">
+    <h3>Made For You</h3>
+
+    <div class="recent-cards">
+
+        <div class="recent-card">
+            <div class="recent-img">
+                <img src="dm1.jpg" alt="Music">
+                <button class="play-btn" type="button">▶</button>
+            </div>
+            <h5>Daily Mix 1</h5>
+            <p>Your favourite artists and songs</p>
+        </div>
+
+        <div class="recent-card">
+            <div class="recent-img">
+                <img src="dm2.jpg" alt="Music">
+                <button class="play-btn" type="button">▶</button>
+            </div>
+            <h5>Daily Mix 2</h5>
+            <p>Music picked just for you</p>
+        </div>
+<div class="recent-card">
+            <div class="recent-img">
+                <img src="dm3.jpg" alt="Music">
+                <button class="play-btn" type="button">▶</button>
+            </div>
+            <h5>Daily Mix 3</h5>
+            <p>Music picked just for you</p>
+        </div>
+        <div class="recent-card">
+            <div class="recent-img">
+                <img src="dm4.jpg" alt="Music">
+                <button class="play-btn" type="button">▶</button>
+            </div>
+            <h5>Daily Mix 4</h5>
+            <p>Music picked just for you</p>
+        </div>
+        <div class="recent-card">
+            <div class="recent-img">
+                <img src="dm5.jpg" alt="Music">
+                <button class="play-btn" type="button">▶</button>
+            </div>
+            <h5>Daily Mix 5</h5>
+            <p>Music picked just for you</p>
+        </div>
+        <div class="recent-card">
+            <div class="recent-img">
+                <img src="dm6.jpg" alt="Music">
+                <button class="play-btn" type="button">▶</button>
+            </div>
+            <h5>Daily Mix 6</h5>
+            <p>Music picked just for you</p>
+        </div>
+        <div class="recent-card">
+            <div class="recent-img">
+                <img src="dm7.jpg" alt="Music">
+                <button class="play-btn" type="button">▶</button>
+            </div>
+            <h5>Daily Mix 7</h5>
+            <p>Music picked just for you</p>
+        </div>
+        <div class="recent-card">
+            <div class="recent-img">
+                <img src="a8.jpg" alt="Music">
+                <button class="play-btn" type="button">▶</button>
+            </div>
+            <h5>Daily Mix 8</h5>
+            <p>Music picked just for you</p>
+        </div>
+    </div>
+</div>
+<div class="popular-albums">
+    <h3>Popular Artists</h3>
+    <div class="recent-cards">
+    <div class="recent-card">
+        <div class="recent-img">
+            <img src="a1.jpg" alt="Album">
+            <button class="play-btn" type="button">▶</button>
+        </div>
+        <h5>Arjit singh</h5>
+        <p>Playlist.spotify</p>
+    </div>
+    <div class="recent-card">
+        <div class="recent-img">
+            <img src="a2.jpg" alt="Album">
+            <button class="play-btn" type="button">▶</button>
+        </div>
+        <h5>Sidhu moosewala</h5>
+        <p>Playlist.spotify</p>
+    </div>
+    <div class="recent-card">
+        <div class="recent-img">
+            <img src="a3.jpg" alt="Album">
+            <button class="play-btn" type="button">▶</button>
+        </div>
+        <h5>Atif Aslam</h5>
+        <p>Playlist.spotify</p>
+    </div>
+    <div class="recent-card">
+        <div class="recent-img">
+            <img src="a4.jpg" alt="Album">
+            <button class="play-btn" type="button">▶</button>
+        </div>
+        <h5>Armaan Malik</h5>
+        <p>Playlist.spotify</p>
+    </div>
+    <div class="recent-card">
+        <div class="recent-img">
+            <img src="a5.jpg" alt="Album">
+            <button class="play-btn" type="button">▶</button>
+        </div>
+        <h5>Abdul Hannan</h5>
+        <p>Playlist.spotify</p>
+    </div>
+    <div class="recent-card">
+        <div class="recent-img">
+            <img src="a6.jpg" alt="Album">
+            <button class="play-btn" type="button">▶</button>
+        </div>
+        <h5>Ali Zafar</h5>
+        <p>Playlist.spotify</p>
+    </div>
+    <div class="recent-card">
+        <div class="recent-img">
+            <img src="a7.jpg" alt="Album">
+            <button class="play-btn" type="button">▶</button>
+        </div>
+        <h5>Momina Mustehsan</h5>
+        <p>Playlist.spotify</p>
+    </div>
+    <div class="recent-card">
+        <div class="recent-img">
+            <img src="a8.jpg" alt="Album">
+            <button class="play-btn" type="button">▶</button>
+        </div>
+        <h5>Amanat ali</h5>
+        <p>Playlist.spotify</p>
+    </div>
+    <div class="recent-card">
+        <div class="recent-img">
+            <img src="a9.jpg" alt="Album">
+            <button class="play-btn" type="button">▶</button>
+        </div>
+        <h5>Dharsan Raval</h5>
+        <p>Playlist.spotify</p>
+    </div>
+    <div class="recent-card">
+        <div class="recent-img">
+            <img src="a10.jpg" alt="Album">
+            <button class="play-btn" type="button">▶</button>
+        </div>
+        <h5>Azaan Sami Khan</h5>
+        <p>Playlist.spotify</p>
+    </div>
+    <div class="recent-card">
+        <div class="recent-img">
+            <img src="a11.jpg" alt="Album">
+            <button class="play-btn" type="button">▶</button>
+        </div>
+        <h5>gajendra verma</h5>
+        <p>Playlist.spotify</p>
+    </div>
+    <div class="recent-card">
+        <div class="recent-img">
+            <img src="a12.jpg" alt="Album">
+            <button class="play-btn" type="button">▶</button>
+        </div>
+        <h5>Hasan Raheem</h5>
+        <p>Playlist.spotify</p>
+    </div>
+    <div class="recent-card">
+        <div class="recent-img">
+            <img src="a13.jpg" alt="Album">
+            <button class="play-btn" type="button">▶</button>
+        </div>
+        <h5>AP Dhillon</h5>
+        <p>Playlist.spotify</p>
+    </div>
+    <div class="recent-card">
+        <div class="recent-img">
+            <img src="a14.jpg" alt="Album">
+            <button class="play-btn" type="button">▶</button>
+        </div>
+        <h5>talwiinder</h5>
+        <p>Playlist.spotify</p>
+    </div>
+    <div class="recent-card">
+        <div class="recent-img">
+            <img src="a15.jpg" alt="Album">
+            <button class="play-btn" type="button">▶</button>
+        </div>
+        <h5>Diljit Dosanjh</h5>
+        <p>Playlist.spotify</p>
+    </div>
+</div>
+</div>
+<div class="trending-songs">
+    <h3>Trending Songs</h3>
+    <div class="recent-cards">
+        <!-- Yahan trending songs ke cards aayenge -->
+    <div class="recent-card">
+    <div class="recent-img">
+    <img src="t1.jpg" alt="Album">
+    <button class="play-btn" type="button">▶</button>
+    </div>
+    <h5>kaise hoa</h5>
+    <p>Kabir singh</p>
+    </div>
+    <div class="recent-card">
+    <div class="recent-img">
+    <img src="t2.jpg" alt="Album">
+    <button class="play-btn" type="button">▶</button>
+    </div>
+    <h5>Regardless</h5>
+    <p>Asim azher</p>
+    </div>
+    <div class="recent-card">
+    <div class="recent-img">
+    <img src="t3.jpg" alt="Album">
+    <button class="play-btn" type="button">▶</button>
+    </div>
+    <h5>Bairan</h5>
+    <p>banjaare</p>
+    </div>
+    <div class="recent-card">
+    <div class="recent-img">
+    <img src="t4.jpg" alt="Album">
+    <button class="play-btn" type="button">▶</button>
+    </div>
+    <h5>Okay STFU</h5>
+    <p>AP Dhillon,Syra</p>
+    </div>
+    <div class="recent-card">
+    <div class="recent-img">
+    <img src="t5.jpg" alt="Album">
+    <button class="play-btn" type="button">▶</button>
+    </div>
+    <h5>Arzu</h5>
+    <p>Noor</p>
+    </div>
+    <div class="recent-card">
+    <div class="recent-img">
+    <img src="t6.jpg" alt="Album">
+    <button class="play-btn" type="button">▶</button>
+    </div>
+    <h5>Arz Kiya hai</h5>
+    <p>anuv jain</p>
+    </div>
+    <div class="recent-card">
+    <div class="recent-img">
+    <img src="t7.jpg" alt="Album">
+    <button class="play-btn" type="button">▶</button>
+    </div>
+    <h5>Preet Re</h5>
+    <p>Dharshan Raval</p>
+    </div>
+    <div class="recent-card">
+    <div class="recent-img">
+    <img src="t8.jpg" alt="Album">
+    <button class="play-btn" type="button">▶</button>
+    </div>
+    <h5>Safar</h5>
+    <p>Bayaan</p>
+    </div>
+    <div class="recent-card">
+    <div class="recent-img">
+    <img src="t9.jpg" alt="Album">
+    <button class="play-btn" type="button">▶</button>
+    </div>
+    <h5>Ranjaan</h5>
+    <p>sachet-prampara</p>
+    </div>
+    <div class="recent-card">
+    <div class="recent-img">
+    <img src="t10.jpg" alt="Album">
+    <button class="play-btn" type="button">▶</button>
+    </div>
+    <h5>Making Memories</h5>
+    <p>Karan Aujla</p>
+    </div>
+    </div>
+</div>
+<!-- footer start -->
+ <div class="footer">
+<div class="footer-section">
+        <h5>Company</h5>
+        <a href="">About</a>
+        <a href="">Jobs</a>
+        <a href="">For the Record</a>
+    </div>
+
+    <div class="footer-section">
+        <h5>Communities</h5>
+        <a href="">For Artists</a>
+        <a href="">Developers</a>
+    </div>
+
+    <div class="footer-section">
+        <h5>Useful Links</h5>
+        <a href="">Support</a>
+        <a href="">Free Mobile App</a>
+    </div>
+
+    <div class="footer-section">
+        <h5>Social Media</h5>
+        <a href="">instagram</a>
+        <a href="">facebook</a>
+        <a href="">youtube</a>
+    </div>
+ </div>
+ <!-- footer end  -->
+  </div>
+  
+</div>
+<!-- music player start -->
+
+<div class="music-player">
+
+    <div class="player-left">
+<img src="vn1.webp" alt="Song Cover">
+
+    <div class="song-info">
+        <h6>Song Name</h6>
+        <p>Artist Name</p>
+    </div>
+    </div>
+
+    <div class="player-center">
+    <div class="player-controls">
+    <button><i class="bi bi-shuffle"></i></button>
+    <button><i class="bi bi-skip-start-fill"></i></button>
+    
+<button class="play-btn" type="button">
+    <i class="bi bi-play-fill"></i>
+</button>
+    <button><i class="bi bi-skip-end-fill"></i></button>
+    <button><i class="bi bi-repeat"></i></button>
+</div>
+     <div class="progress-section">
+        <span>0:00</span>
+        <input type="range" min="0" max="100" value="0">
+        <span>3:30</span>
+    </div>
+    </div>
+
+     <div class="player-right">
+    <button><i class="bi bi-mic-fill"></i></button>
+    <button><i class="bi bi-list-ul"></i></button>
+    <button><i class="bi bi-volume-up-fill"></i></button>
+    <input type="range" min="0" max="100" value="50">
+</div>
+</div>
+
+ <!-- music player end -->
+</div>
+</div>
+    
+</div>
+</div>
+ </div>
+ </div>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    $(function(){
+        $('.nav.flex-column img').css('border-radius', '90px');
+
+        document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function(img) {
+            new bootstrap.Tooltip(img, {
+                html: true
+            });
+        });
+    });
+</script>
+</html>
